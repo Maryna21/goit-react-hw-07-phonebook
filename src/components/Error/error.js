@@ -18,7 +18,7 @@ class Error extends Component {
     
     render() {
         return(<CSSTransition
-            in={this.props.message}
+            in={true}
             timeout={250}
             classNames={errorTransition}
             unmountOnExit
