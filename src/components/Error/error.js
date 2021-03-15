@@ -1,17 +1,38 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import s from 'components/Error/error.module.css';
 import errorTransition from 'components/Error/errorTransition.module.css';
-const Error = () => {
-    return (
-         <CSSTransition
-            in={true}
+import { clearError } from 'redux/contacts-actions';
+import { getError } from 'redux/contacts-selectors';
+import { connect } from 'react-redux';
+
+class Error extends Component {
+
+    componentDidMount() {
+        if (this.props.error) {
+            setTimeout(() => {
+                this.props.clearError();
+            }, 2500);
+            }
+        }
+    
+    render() {
+        return(<CSSTransition
+            in={this.props.message}
             timeout={250}
             classNames={errorTransition}
             unmountOnExit
         >
-            <div className={s.box}>Contact is already exists!</div>
-            </CSSTransition>
-    )
+            <div className={s.box}><p>{this.props.message}</p></div>
+            </CSSTransition>)
+    }
 }
-export default Error;
+
+const mapStateToProps = (state) => ({
+    error: getError(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+    clearError: () => dispatch(clearError())
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Error);

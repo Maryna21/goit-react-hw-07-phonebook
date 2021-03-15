@@ -53,7 +53,7 @@ class ContactForm extends Component{
                 <input className={s.inputForm}  type="tel" name="number" id={this.loginInputId} value={this.state.number} onChange={this.handleNameChange}/>
                 <button className={s.buttonContactForm} type="submit">Add contact</button>
               </form>
-              { error && <Error /> } 
+              { error && <Error message='Contact is already exists!' /> } 
     </>
             );
           }}
