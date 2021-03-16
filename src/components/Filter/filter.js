@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {CSSTransition } from 'react-transition-group';
 import addTransition from 'components/ContactList/transitions/addTransition.module.css';
 import s from 'components/Filter/filter.module.css';
-import {changeFilter} from 'redux/contacts-actions';
+import * as contactsAction from 'redux/contacts-actions';
 import { getFilter } from 'redux/contacts-selectors';
 
 function Filter({value, onChange}){
@@ -28,7 +28,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = dispatch =>({
- onChange: (e) => dispatch(changeFilter(e.target.value))  
+ onChange: (e) => dispatch(contactsAction.changeFilter(e.target.value))  
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

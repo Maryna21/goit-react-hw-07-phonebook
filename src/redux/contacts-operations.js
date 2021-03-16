@@ -1,5 +1,4 @@
 import axios from 'axios';
-import actions from 'redux/contacts-actions';
 import {
     addContactRequest,
     addContactSuccess,
@@ -32,18 +31,19 @@ const fetchContacts = () => async dispatch => {
     }
 }
 
-const addContact = ({ name, number }) => dispatch => {
-    const contact = {
-        name,
-        number
-    };
+const addContact = contact => dispatch => {
+    // console.log('okey', { name, number});
+    // const contact = {
+    //     name,
+    //     number,
+    // };
 
     dispatch(addContactRequest());
 
     axios
         .post('/contacts', contact)
-        .then(({ data }) =>
-        dispatch(addContactSuccess(data)))
+        .then(({ data }) => console.log('dataOk', data) ||
+            dispatch(addContactSuccess([data]))) 
         .catch(error => dispatch(addContactError(error)));
 };
 

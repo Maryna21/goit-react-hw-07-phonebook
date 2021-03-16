@@ -5,7 +5,7 @@ import s from 'components/ContactForm/contactForm.module.css';
 import { connect } from 'react-redux';
 import contactsOperations from 'redux/contacts-operations';
 import Error from 'components/Error/error';
-import { getAllContacts } from 'redux/contacts-selectors';
+import { getAllContacts, getName } from 'redux/contacts-selectors';
 // import { toast } from 'react-toastify';
 
 class ContactForm extends Component{
@@ -23,13 +23,9 @@ class ContactForm extends Component{
   };
 
   handleSubmit = event => {
-    event.preventDefault();
-
-    // if (this.state.name === '') {
-    //    return toast.warning('Please write something!');
-    // }
-            
-     if (this.props.contacts.find(({ name }) => name)) {
+     event.preventDefault();
+    
+    if (this.props.contacts.find(contact  =>  contact.name === this.state.name)){
       this.setState({
         error: true,
       })
@@ -38,9 +34,10 @@ class ContactForm extends Component{
     this.props.onSubmit(this.state);
     this.reset();
   }
-        reset = () => {
-            this.setState({name: '', number:''})
-        }
+  reset = () => {
+          this.setState({name: '', number:''})
+  }
+  
   render() {
     const { error } = this.state;
     return (
@@ -53,7 +50,7 @@ class ContactForm extends Component{
                 <input className={s.inputForm}  type="tel" name="number" id={this.loginInputId} value={this.state.number} onChange={this.handleNameChange}/>
                 <button className={s.buttonContactForm} type="submit">Add contact</button>
               </form>
-              { error && <Error message='Contact is already exists!' /> } 
+              { error && <Error /> } 
     </>
             );
           }}
@@ -72,6 +69,7 @@ const mapStateToProps = (state) => ({
 });
          
 const mapDispatchToProps = dispatch => ({
-  onSubmit: ({ name, number }) => dispatch(contactsOperations.addContact(name, number)),
-  });
+  onSubmit: ({ name, number }) => dispatch(contactsOperations.addContact({ name, number})),
+});
+  
 export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

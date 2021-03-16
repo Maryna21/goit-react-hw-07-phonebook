@@ -11,9 +11,6 @@ import { connect } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import contactsOperations from 'redux/contacts-operations';
 import { getLoading } from 'redux/contacts-selectors';
-import { getElementError } from '@testing-library/dom';
-import Error from 'components/Error/error';
-import { getAllContacts} from 'redux/contacts-selectors';
 
 class App extends Component {
 
@@ -22,7 +19,6 @@ class App extends Component {
   }
 
   render() {
-    const { isloadingContacts, error, contacts } = this.props;
     return (
       <Container>
         <CSSTransition
@@ -34,12 +30,10 @@ class App extends Component {
         >
           <h1 className={s.title}>Phonebook</h1>
           </CSSTransition>
-        <ContactForm />
-        {(contacts.length > 1) &&  <Filter /> }
-       
-        {isloadingContacts && <h1>loading...</h1>}
-        <ContactList />
-        {error && <Error message={'ERROR contact is not found!'}/>}
+     <ContactForm/>
+        <Filter />
+        {this.props.isloadingContacts && <h1>loading...</h1>}
+        <ContactList/>
       </Container>
     );
   }
@@ -47,8 +41,6 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   isloadingContacts: getLoading(state),
-  error: getElementError(state),
-  contacts: getAllContacts(state),
 })
 
 const mapDispatchToProps = dispatch => ({
